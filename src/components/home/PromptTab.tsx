@@ -51,12 +51,12 @@ const PromptTab: React.FC<PromptTabProps> = ({ value, onChange, onCopy, onNext, 
                     >
                         Prompt
                     </button>
-                    <button
-                        className={`p-2 ${activeTab === 'variables' ? 'border-b-2 border-blue-500' : ''}`}
-                        onClick={() => setActiveTab('variables')}
-                    >
-                        Variables
-                    </button>
+                    {/*<button*/}
+                    {/*    className={`p-2 ${activeTab === 'variables' ? 'border-b-2 border-blue-500' : ''}`}*/}
+                    {/*    onClick={() => setActiveTab('variables')}*/}
+                    {/*>*/}
+                    {/*    Variables*/}
+                    {/*</button>*/}
                     <button
                         className={`p-2 ${activeTab === 'preview' ? 'border-b-2 border-blue-500' : ''}`}
                         onClick={() => setActiveTab('preview')}
