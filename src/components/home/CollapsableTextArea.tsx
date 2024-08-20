@@ -2,6 +2,12 @@ import { useState } from "react";
 import usePipelineContext from "../../stores/usePipelineContext.tsx";
 import PromptTab from "./PromptTab";
 import ResultTab from "./ResultTab";
+import { toast } from 'react-toastify';
+
+interface ExtraTab {
+    name: string;
+    component: React.ElementType;
+}
 
 interface Replacement {
     key: string;
@@ -16,12 +22,13 @@ interface CollapsableTextAreaProps {
     onBack: () => void;
     previewOnly: boolean;
     extraReplacements?: Replacement[];
+    extraTabs?: ExtraTab[];
 }
 
-const CollapsableTextArea: React.FC<CollapsableTextAreaProps> = ({ prompt, result, setResult, onDone, onBack, previewOnly, extraReplacements }) => {
-    const { firstTurnQuestion, domain, subdomain, taxonomyL1, taxonomyL2, scenario, systemPrompt, schema, userQuestions } = usePipelineContext();
+const CollapsableTextArea: React.FC<CollapsableTextAreaProps> = ({ prompt, result, setResult, onDone, onBack, previewOnly, extraReplacements, extraTabs }) => {
+    const { firstTurn, remainingTurns, firstTurnQuestion, domain, subdomain, taxonomyL1, taxonomyL2, scenario, systemPrompt, schema, userQuestions } = usePipelineContext();
 
-    const [activeTab, setActiveTab] = useState<'prompt' | 'result'>('prompt');
+    const [activeTab, setActiveTab] = useState<'prompt' | 'result' | string>('prompt');
     const [leftEditorValue, setLeftEditorValue] = useState(prompt);
 
     const canAdvance = activeTab === 'result' && !!result;
@@ -36,7 +43,9 @@ const CollapsableTextArea: React.FC<CollapsableTextAreaProps> = ({ prompt, resul
             .replace(/\[\[systemPrompt\]\]/g, systemPrompt)
             .replace(/\[\[schema\]\]/g, schema)
             .replace(/\[\[firstTurnQuestion\]\]/g, firstTurnQuestion)
-            .replace(/\[\[userQuestions\]\]/g, userQuestions);
+            .replace(/\[\[userQuestions\]\]/g, userQuestions)
+            .replace(/\[\[firstTurn\]\]/g, JSON.stringify(firstTurn))
+            .replace(/\[\[remainingTurns\]\]/g, JSON.stringify(remainingTurns));
 
         if (extraReplacements) {
             extraReplacements.forEach(({ key, value }) => {
@@ -46,6 +55,7 @@ const CollapsableTextArea: React.FC<CollapsableTextAreaProps> = ({ prompt, resul
         }
         navigator.clipboard.writeText(tempValue).then(() => {
             console.log("Text copied to clipboard");
+            toast.success("Text copied to clipboard");
         }).catch(err => {
             console.error("Failed to copy text: ", err);
         });
@@ -71,6 +81,15 @@ const CollapsableTextArea: React.FC<CollapsableTextAreaProps> = ({ prompt, resul
                 >
                     Result
                 </button>
+                {extraTabs && extraTabs.map((tab, index) => (
+                    <button
+                        key={index}
+                        className={`p-4 ${activeTab === tab.name ? 'border-b-2 border-gray-400 dark:border-gray-600 bg-gray-300 dark:bg-gray-700' : ''}`}
+                        onClick={() => setActiveTab(tab.name)}
+                    >
+                        {tab.name}
+                    </button>
+                ))}
             </div>
             <div className="border border-gray-400 dark:border-gray-600 bg-gray-100 dark:bg-gray-900 p-4">
                 {activeTab === 'prompt' && (
@@ -95,6 +114,9 @@ const CollapsableTextArea: React.FC<CollapsableTextAreaProps> = ({ prompt, resul
                         canAdvance={canAdvance}
                     />
                 )}
+                {extraTabs && extraTabs.map((tab, index) => (
+                    activeTab === tab.name && <tab.component key={index} />
+                ))}
             </div>
         </div>
     );

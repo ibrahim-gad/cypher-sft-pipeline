@@ -1,0 +1,8 @@
+.markdown-content ul {
+    list-style: initial;
+    margin-left: 20px;
+}
+.markdown-content ol {
+    list-style-type: decimal;
+    margin-left: 20px;
+}

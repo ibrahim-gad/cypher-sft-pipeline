@@ -2,6 +2,7 @@
 import { FaCopy } from "react-icons/fa";
 import MarkdownEditor from "react-markdown-editor-lite";
 import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const ResultTab = ({ value, onChange, onCopy, onAdvance, onBack, previewOnly, canAdvance }: { value: string, onChange: any, onCopy: any, onAdvance: any, onBack: any, previewOnly: boolean, canAdvance: boolean }) => {
     return (
@@ -19,7 +20,7 @@ const ResultTab = ({ value, onChange, onCopy, onAdvance, onBack, previewOnly, ca
                 value={value}
                 onChange={({ text }) => onChange(text)}
                 style={{ minHeight: '300px', height: '500px' }}
-                renderHTML={(text) => <Markdown>{text}</Markdown>}
+                renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
             />
             {!previewOnly &&
                 <div className="flex justify-between">

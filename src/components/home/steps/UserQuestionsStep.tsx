@@ -1,6 +1,7 @@
 import React from 'react';
 import CollapsableTextArea from '../CollapsableTextArea.tsx';
 import usePipelineContext from "../../../stores/usePipelineContext.tsx";
+import EditQuestionsTab from '../tabs/EditQuestionsTab';
 
 interface UserQuestionsStepProps {
     prompt: string;
@@ -29,6 +30,7 @@ const UserQuestionsStep: React.FC<UserQuestionsStepProps> = ({
             onDone={onDone}
             setResult={setUserQuestions}
             onBack={onBack}
+            extraTabs={[{ name: 'Questions', component: EditQuestionsTab }]}
         />
         </div>
     </div>

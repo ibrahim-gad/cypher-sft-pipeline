@@ -3,6 +3,7 @@ import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import useDefaultPromptsContext from '../stores/useDefaultPrompts';
 import Markdown from 'react-markdown';
+import remarkGfm from "remark-gfm";
 
 
 const Settings = () => {
@@ -28,7 +29,7 @@ const Settings = () => {
                 <MarkdownEditor
                     value={systemPromptPrompt}
                     style={{ height: '200px' }}
-                    renderHTML={(text) => <Markdown>{text}</Markdown>}
+                    renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
                     onChange={({ text }) => setSystemPromptPrompt(text)}
                 />
             </div>
@@ -37,7 +38,7 @@ const Settings = () => {
                 <MarkdownEditor
                     value={schemaPrompt}
                     style={{ height: '200px' }}
-                    renderHTML={(text) => <Markdown>{text}</Markdown>}
+                    renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
                     onChange={({ text }) => setSchemaPrompt(text)}
                 />
             </div>
@@ -46,7 +47,7 @@ const Settings = () => {
                 <MarkdownEditor
                     value={userQuestionsPrompt}
                     style={{ height: '200px' }}
-                    renderHTML={(text) => <Markdown>{text}</Markdown>}
+                    renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
                     onChange={({ text }) => setUserQuestionsPrompt(text)}
                 />
             </div>
@@ -55,7 +56,7 @@ const Settings = () => {
                 <MarkdownEditor
                     value={sampleDataPrompt}
                     style={{ height: '200px' }}
-                    renderHTML={(text) => <Markdown>{text}</Markdown>}
+                    renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
                     onChange={({ text }) => setSampleDataPrompt(text)}
                 />
             </div>
@@ -64,7 +65,7 @@ const Settings = () => {
                 <MarkdownEditor
                     value={firstTurnPrompt}
                     style={{ height: '200px' }}
-                    renderHTML={(text) => <Markdown>{text}</Markdown>}
+                    renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
                     onChange={({ text }) => setFirstTurnPrompt(text)}
                 />
             </div>
@@ -73,7 +74,7 @@ const Settings = () => {
                 <MarkdownEditor
                     value={remainingTurnsPrompt}
                     style={{ height: '200px' }}
-                    renderHTML={(text) => <Markdown>{text}</Markdown>}
+                    renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
                     onChange={({ text }) => setRemainingTurnsPrompt(text)}
                 />
             </div>

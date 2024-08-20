@@ -5,6 +5,7 @@ import SchemaStep from "./steps/SchemaStep.tsx";
 import UserQuestionsStep from "./steps/UserQuestionsStep.tsx";
 import SampleDataStep from "./steps/SampleDataStep.tsx";
 import ConversationStep from "./steps/ConversationStep.tsx";
+import CleanSchemaStep from "./steps/CleanSchemaStep.tsx";
 
 interface PipelineStepProps {
     currentStep: number;
@@ -22,7 +23,8 @@ const PipelineStep: React.FC<PipelineStepProps> = ({ currentStep }) => {
         2: SchemaStep,
         3: UserQuestionsStep,
         4: SampleDataStep,
-        5: ConversationStep
+        5: ConversationStep,
+        6: CleanSchemaStep
     };
 
     const StepComponent = stepComponents[currentStep];

@@ -44,10 +44,10 @@ Remember to guide users through constructing queries that may involve multiple l
 ---
 Domain: [[domain]], especially [[subdomain]]
 ---
-Respective system prompt: Please create very details system prompt.
+Respective system prompt: Please create a system prompt.
 ---
 - Key Concepts should contain info about [[taxonomyL1]] + [[taxonomyL2]].
-- System prompt need to be very detailed and verbose.
+- System prompt need to be detailed.
 - No need to provide any example queries.
 - Please put this whole answer in a text code block
 `
@@ -118,6 +118,7 @@ Scenario: [[scenario]].
 - Again the properties of every node has to be comprehensive.
 - Relationships as well, we need to add any important properties a relationship might need.
 - For the id fields in schema don't use \`id\` as key instead prefix it with the node name.
+- There is no datatype in cypher called MAP.
 - The queries on this schema will focus on [[taxonomyL1]] + [[taxonomyL2]].
 - We don't need any example queries or create scrips or call directives.
 - Please put this whole answer in a text code block
@@ -143,8 +144,9 @@ We want to imagine a conversation between a user and llm, the conversation is ag
 Please provide example questions of the user, only the user no need for the llm responses.
 
 - Don't forget to describe the schema in the first turn.
-- The user question should be provided as json like this [{"turn": 1, "question": ""}]
-- Please put this whole answer in a text code block
+- The user question should be provided as json like this [{"turn": 1, "question": ""}].
+- For object values replace new lines with \\n.
+- Please put this whole answer in a text code block.
 - Don't omit Indexes and constraints.
 - For internal code blocks please escape them with \\ in front of "\`\`\`"
 `
@@ -174,12 +176,12 @@ const defaultFirstTurnPrompt = `Please start with answering this question
 With a correct query and a very detailed explanation.
 
 - Add comments inside the query when possible.
-- Please only answer this specific question, don't assume the user wants anything else, restrict your answer as possible, don't overstep to the question or make any assumptions.
+- The explanation of the query must be very detailed, like very very detailed, clause by clause.
 - Please include in the result the nodes in question as graph nodes not strings and their relationships that exist in the query.
 - Please use meaningful names for the returned nodes, not p1 and a1 and things like that.
-- The explanation of the query must be very detailed, like very very detailed, clause by clause.
-- Please put this whole answer in a text code block
-- For internal code blocks please escape them with \\ in front of "\`\`\`"
+
+- Please put this whole answer in a text code block.
+- For internal code blocks please escape them with \\ in front of "\`\`\`".
 `
 const defaultRemainingTurnsPrompt = `Next question.
 \`\`\`
@@ -192,11 +194,22 @@ const defaultRemainingTurnsPrompt = `Next question.
 - For internal code blocks please escape them with \\ in front of "\`\`\`"
 `
 
+const defaultCleanSchemaPrompt = `We have This schema:
+\`\`\`
+[[schema]]
+\`\`\`
+We want to clean it to only include things used in these queries:
+\`\`\`
+[[firstTurn]]
+[[remainingTurns]]
+\`\`\`
+`
 export {
     defaultSystemPromptPrompt,
     defaultSchemaPrompt,
     defaultUserQuestionsPrompt,
     defaultSampleDataPrompt,
     defaultFirstTurnPrompt,
-    defaultRemainingTurnsPrompt
+    defaultRemainingTurnsPrompt,
+    defaultCleanSchemaPrompt
 };

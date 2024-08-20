@@ -3,6 +3,7 @@ import { FaCopy } from "react-icons/fa";
 import MarkdownEditor from "react-markdown-editor-lite";
 import Markdown from "react-markdown";
 import usePipelineContext from "../../stores/usePipelineContext.tsx";
+import remarkGfm from "remark-gfm";
 
 interface Replacement {
     key: string;
@@ -20,7 +21,7 @@ interface PromptTabProps {
 }
 
 const PromptTab: React.FC<PromptTabProps> = ({ value, onChange, onCopy, onNext, onBack, previewOnly, extraReplacements }) => {
-    const { firstTurnQuestion, domain, subdomain, taxonomyL1, taxonomyL2, scenario, systemPrompt, schema } = usePipelineContext();
+    const { userQuestions, firstTurn, remainingTurns, firstTurnQuestion, domain, subdomain, taxonomyL1, taxonomyL2, scenario, systemPrompt, schema } = usePipelineContext();
     const [activeTab, setActiveTab] = useState<'prompt' | 'variables' | 'preview'>('prompt');
 
     const renderPreview = (text: string): string => {
@@ -34,7 +35,10 @@ const PromptTab: React.FC<PromptTabProps> = ({ value, onChange, onCopy, onNext, 
                 .replace(/\[\[scenario\]\]/g, scenario)
                 .replace(/\[\[systemPrompt\]\]/g, systemPrompt)
                 .replace(/\[\[schema\]\]/g, schema)
-                .replace(/\[\[firstTurnQuestion\]\]/g, firstTurnQuestion);
+                .replace(/\[\[firstTurnQuestion\]\]/g, firstTurnQuestion)
+                .replace(/\[\[userQuestions\]\]/g, userQuestions)
+                .replace(/\[\[firstTurn\]\]/g, JSON.stringify(firstTurn))
+                .replace(/\[\[remainingTurns\]\]/g, JSON.stringify(remainingTurns));
     };
 
     return (
@@ -75,7 +79,7 @@ const PromptTab: React.FC<PromptTabProps> = ({ value, onChange, onCopy, onNext, 
                         readOnly={previewOnly}
                         onChange={({ text }) => onChange(text)}
                         style={{ minHeight: '300px', height: '500px' }}
-                        renderHTML={(text) => <Markdown>{text}</Markdown>}
+                        renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
                     />
                 </div>
             )}
@@ -91,7 +95,7 @@ const PromptTab: React.FC<PromptTabProps> = ({ value, onChange, onCopy, onNext, 
                         value={renderPreview(value)}
                         readOnly={true}
                         style={{ minHeight: '300px', height: '500px' }}
-                        renderHTML={(text) => <Markdown>{text}</Markdown>}
+                        renderHTML={(text) => <Markdown className="markdown-content" remarkPlugins={[remarkGfm]}>{text}</Markdown>}
                     />
                 </div>
             )}

@@ -1,5 +1,8 @@
 import './App.css'
 import "react-markdown-editor-lite/lib/index.css";
+import 'react-toastify/dist/ReactToastify.css';
+
+import { ToastContainer } from 'react-toastify';
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {routes} from "./router/routes.tsx";
@@ -13,6 +16,7 @@ function App() {
         <DefaultPromptsProvider>
             <PipelineProvider>
                 <RouterProvider router={router} />
+                <ToastContainer />
             </PipelineProvider>
         </DefaultPromptsProvider>
 

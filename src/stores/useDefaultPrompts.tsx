@@ -7,7 +7,8 @@ import {
     defaultSampleDataPrompt,
     defaultSchemaPrompt,
     defaultSystemPromptPrompt,
-    defaultUserQuestionsPrompt
+    defaultUserQuestionsPrompt,
+    defaultCleanSchemaPrompt
 } from "../lib/defaultPrompts.ts";
 
 // Define the shape of the context state
@@ -16,6 +17,7 @@ interface DefaultPromptsContextState {
     remainingTurnsPrompt: string;
     sampleDataPrompt: string;
     schemaPrompt: string;
+    cleanSchemaPrompt: string;
     systemPromptPrompt: string;
     userQuestionsPrompt: string;
     setFirstTurnPrompt: (value: string) => void;
@@ -24,6 +26,7 @@ interface DefaultPromptsContextState {
     setSchemaPrompt: (value: string) => void;
     setSystemPromptPrompt: (value: string) => void;
     setUserQuestionsPrompt: (value: string) => void;
+    setCleanSchemaPrompt: (value: string) => void;
 }
 
 // Create the context
@@ -37,6 +40,7 @@ export const DefaultPromptsProvider = ({ children }: { children: ReactNode }) =>
     const [schemaPrompt, setSchemaPrompt] = useState<string>(loadState('schemaPrompt', defaultSchemaPrompt));
     const [systemPromptPrompt, setSystemPromptPrompt] = useState<string>(loadState('systemPromptPrompt', defaultSystemPromptPrompt));
     const [userQuestionsPrompt, setUserQuestionsPrompt] = useState<string>(loadState('userQuestionsPrompt', defaultUserQuestionsPrompt));
+    const [cleanSchemaPrompt, setCleanSchemaPrompt] = useState<string>(loadState('cleanSchemaPrompt', defaultCleanSchemaPrompt));
 
     useEffect(() => {
         saveState('firstTurnPrompt', firstTurnPrompt);
@@ -75,7 +79,9 @@ export const DefaultPromptsProvider = ({ children }: { children: ReactNode }) =>
             setSampleDataPrompt,
             setSchemaPrompt,
             setSystemPromptPrompt,
-            setUserQuestionsPrompt
+            setUserQuestionsPrompt,
+            cleanSchemaPrompt,
+            setCleanSchemaPrompt
         }}>
             {children}
         </DefaultPromptsContext.Provider>
